@@ -3,7 +3,7 @@ const userService = require('../services/userService');
 const getAllUsers = async (req, res) => {
   try {
     const users = await userService.getAllUsers();
-    if(users.length === 0)
+    if (users.length === 0)
       return res.status(400).json({ message: 'No users found' });
     res.status(200).json(users);
   } catch (error) {
@@ -32,12 +32,14 @@ const signUp = async (req, res) => {
     const newUser = await userService.signUp({ name, password, type });
     if (newUser.status === 200) {
       res.status(201).json({ message: 'User created successfully', user: newUser.newUser });
+    } else if (newUser.status === 400) {
+      res.status(400).json({ message: newUser.message });
     } else {
-      res.status(newUser.status).json({ message: newUser.message });
+      res.status(500).json({ message: 'Server error' });
     }
   } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server error');
+    console.error(err.message); // Log the error to the console for debugging purposes
+    res.status(400).json({ message: err.message }); // Send validation error to Postman
   }
 };
 

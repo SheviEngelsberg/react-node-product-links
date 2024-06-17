@@ -1,11 +1,12 @@
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const validation = require('../validations/userValidations')
 
 const getAllUsers = async () => {
   try {
     const users = await User.find();
-    if(users.length === 0)
+    if (users.length === 0)
       return [];
     return users;
   } catch (error) {
@@ -24,22 +25,32 @@ const getUserById = async (userId) => {
 
 const signUp = async (userData) => {
   try {
+
+    if (!validation.isValidPassword(userData.password))
+      return { status: 400, message: userData.password + ' is not a valid password! Must include at least one digit, one lowercase, one uppercase letter, and one special character' };
+
     const existingUser = await User.findOne({ name: userData.name });
 
     if (existingUser) {
-      const isPasswordValid = await bcrypt.compare(userData.password, existingUser.password);
-      if (isPasswordValid) {
-        return { status: 400, message: 'The user already exists, please change the name or password' };
-      }
+      return { status: 400, message: 'User with the same name already exists' };
     }
-    const hashedPassword = await hashPassword(userData.password);
+
+    const hashedPassword = await bcrypt.hash(userData.password, 10);
     userData.password = hashedPassword;
+
+    const isPasswordValid = await User.findOne({password: userData.password});
+    if (isPasswordValid) {
+      return { status: 400, message: 'The user already exists, please change the password' };
+    }
+
+
     const newUser = new User(userData);
     await newUser.save();
+
     return { status: 200, message: 'Success', newUser };
   } catch (error) {
-    console.error(error);
-    return { status: 500, message: 'Error: can not add user' };
+    console.error(error.message);
+    throw new Error(error.message);
   }
 };
 
