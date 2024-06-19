@@ -29,32 +29,39 @@ const getUserById = async (req, res) => {
 const signUp = async (req, res) => {
   const { name, password, type } = req.body;
   try {
-    const newUser = await userService.signUp({ name, password, type });
-    if (newUser.status === 200) {
-      res.status(201).json({ message: 'User created successfully', user: newUser.newUser });
-    } else if (newUser.status === 400) {
-      res.status(400).json({ message: newUser.message });
+    // Call the signUp function from userService
+    const newUserResponse = await userService.signUp({ name, password, type });
+
+    // Check the status of the response from signUp function
+    if (newUserResponse.status === 200) {
+      // If user creation was successful, send success response
+      res.status(201).json({ message: 'User created successfully', user: newUserResponse.newUser });
+    } else if (newUserResponse.status === 400) {
+      // If there was a validation error, send bad request response
+      res.status(400).json({ message: newUserResponse.message });
     } else {
+      // For any other error, send server error response
       res.status(500).json({ message: 'Server error' });
     }
   } catch (err) {
-    console.error(err.message); // Log the error to the console for debugging purposes
-    res.status(400).json({ message: err.message }); // Send validation error to Postman
+    // Handle caught errors
+    console.error(err.message);
+    res.status(400).json({ message: err.message });
   }
 };
 
 const signIn = async (req, res) => {
-  const { name, password } = req.body;
   try {
-    const token = await userService.signIn(name, password);
-    if (token.status === 200) {
-      res.status(token.status).json({ message: token.message, user: token.user, token: token.token });
-    } else {
-      res.status(token.status).json({ message: token.message });
-    }
+      // Call sign-in function from userService and pass userId from req
+      const token = await userService.signIn(req.foundUser);
+      if (token.status === 200) {
+          res.status(token.status).json({ message: token.message, user: token.user, token: token.token });
+      } else {
+          res.status(token.status).json({ message: token.message });
+      }
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Server error' });
+      console.error(error);
+      res.status(500).json({ message: 'Server error' });
   }
 };
 
