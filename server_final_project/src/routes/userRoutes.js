@@ -17,7 +17,7 @@ router.post('/signUp', validUser, notExistUser, userController.signUp);
 router.post('/signIn', validUser, existUser, userController.signIn);
 
 // Route to update a user (accessible to all logged-in users)
-router.put('/updateUser/:userId', verifyToken, validUser, notExistUser, userController.updateUserById);
+router.put('/updateUser/:userId', verifyToken, validUser, existUser, notExistUser, userController.updateUserById);
 
 // Route to delete a user (accessible to all logged-in users)
 router.delete('/deleteUser/:userId', verifyToken, userController.deleteUserById);
