@@ -8,7 +8,7 @@ const { validUser, existUser, notExistUser } = require('../middlewares/validtion
 router.get('/getAllUsers', verifyToken, isSiteAdmin, userController.getAllUsers);
 
 // Route to get a specific user (accessible only to SITEADMIN)
-router.get('/getUser/:userId', verifyToken, isSiteAdmin, userController.getUserById);
+router.get('/getUser/:userId', verifyToken, isSiteAdmin, existUser, userController.getUserById);
 
 // Route to create a new user (accessible to all)
 router.post('/signUp', validUser, notExistUser, userController.signUp);

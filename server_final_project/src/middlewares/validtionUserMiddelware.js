@@ -55,35 +55,43 @@ const notExistUser = async (req, res, next) => {
 
 const existUser = async (req, res, next) => {
     try {
-        const { name, password } = req.body;
-
-        // Find users in the database with the same name
-        const usersWithSameName = await User.find({ name });
-
-        // If no users found with the given name
-        if (!usersWithSameName || usersWithSameName.length === 0) {
-            return res.status(400).json({ message: 'User not found' });
+        const userId = req.params.userId
+        if (userId) {
+            const user = await User.find({ _id:userId });
+            if (!user)
+                return res.status(400).json({ message: 'User not found' });
         }
+        else {
+            const { name, password } = req.body;
 
-        let foundUser = null;
+            // Find users in the database with the same name
+            const usersWithSameName = await User.find({name: name });
 
-        // Loop through each user with the same name and compare passwords
-        for (const user of usersWithSameName) {
-            const isMatch = await bcrypt.compare(password, user.password);
-            console.log(isMatch)// Set foundUser to the user object
-            if (isMatch) {
-                foundUser = user; 
-                break; // Exit loop if password matches for any user
+            // If no users found with the given name
+            if (!usersWithSameName || usersWithSameName.length === 0) {
+                return res.status(400).json({ message: 'User not found' });
             }
-        }
 
-        // If no password matches
-        if (!foundUser) {
-            return res.status(400).json({ message: 'Invalid credentials' });
-        }
+            let foundUser = null;
 
-        // Add foundUser to request object
-        req.foundUser = foundUser;
+            // Loop through each user with the same name and compare passwords
+            for (const user of usersWithSameName) {
+                const isMatch = await bcrypt.compare(password, user.password);
+                console.log(isMatch)// Set foundUser to the user object
+                if (isMatch) {
+                    foundUser = user;
+                    break; // Exit loop if password matches for any user
+                }
+            }
+
+            // If no password matches
+            if (!foundUser) {
+                return res.status(400).json({ message: 'Invalid credentials' });
+            }
+
+            // Add foundUser to request object
+            req.foundUser = foundUser;
+        }
 
         // If user exists and password matches, continue to the next middleware
         next();
