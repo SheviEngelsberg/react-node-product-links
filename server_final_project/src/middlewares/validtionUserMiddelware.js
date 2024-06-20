@@ -70,8 +70,9 @@ const existUser = async (req, res, next) => {
         // Loop through each user with the same name and compare passwords
         for (const user of usersWithSameName) {
             const isMatch = await bcrypt.compare(password, user.password);
+            console.log(isMatch)// Set foundUser to the user object
             if (isMatch) {
-                foundUser = user; // Set foundUser to the user object
+                foundUser = user; 
                 break; // Exit loop if password matches for any user
             }
         }
