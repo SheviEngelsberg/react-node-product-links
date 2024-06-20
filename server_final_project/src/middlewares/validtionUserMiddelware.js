@@ -23,7 +23,6 @@ const validUser = async (req, res, next) => {
             return res.status(400).json({ message: `${user.name} is not a valid full name! Must include first and last name separated by space` });
         }
         const valid = validPassword(user.password);
-        console.log(valid);
         // בדיקת הסיסמה
         if (!valid) {
             return res.status(400).json({ message: `${user.password} is not a valid password! Must include at least one digit, one lowercase, one uppercase letter, and one special character` });
