@@ -22,24 +22,7 @@ const getShopById = async (shopId) => {
 
 const addShop = async ({ name, shopManager, siteLink, numberOfLinks, availability, type }) => {
     try {
-        const existingSiteLink = await Shop.findOne({ siteLink });
-
-        if (existingSiteLink) {
-            return { status: 400, message: 'The shop already exists, please change the site link' };
-        }
-        const existingName = await Shop.findOne({ name });
-        if (existingName) {
-            return { status: 400, message: 'The shop already exists, please change the name' };
-        }
-
-        const existingShopManager = await User.findOne({ _id: shopManager })
-        if (!existingShopManager || existingShopManager.type != 'shopManager') {
-            return { status: 400, message: 'The Shop Manager not exist or this user not shop admin' };
-        }
-
         const newShop = new Shop({ name, shopManager, siteLink, numberOfLinks, availability, type });
-        newShop.numberOfLinks = 0;
-        newShop.availability = false;
         await newShop.save();
         return { status: 200, message: 'Success', newShop };
     } catch (error) {
@@ -66,22 +49,22 @@ const updateShopById = async (shopId, updatedShopData) => {
 
 const deleteShopById = async (shopId) => {
     try {
-      const shop = await Shop.findById(shopId);
-      if (!shop) {
-        return null; // אם החנות לא נמצאה, יכול להיות שתחזיר איזשהו אינדיקציה אחרת שהיא לא נמצאה במסד הנתונים
-      }
-  
-      if (!shop.availability) {
-        await Shop.findByIdAndDelete(shopId);
-        return shop; // אם החנות לא זמינה ונמחקה בהצלחה
-      }
-  
-      return { status: 400, message: 'Cannot delete, the shop is available' };
+        const shop = await Shop.findById(shopId);
+        if (!shop) {
+            return null; // אם החנות לא נמצאה, יכול להיות שתחזיר איזשהו אינדיקציה אחרת שהיא לא נמצאה במסד הנתונים
+        }
+
+        if (!shop.availability) {
+            await Shop.findByIdAndDelete(shopId);
+            return shop; // אם החנות לא זמינה ונמחקה בהצלחה
+        }
+
+        return { status: 400, message: 'Cannot delete, the shop is available' };
     } catch (error) {
-      throw error;
+        throw error;
     }
-  }
-  
+}
+
 module.exports = {
     getAllShops,
     getShopById,

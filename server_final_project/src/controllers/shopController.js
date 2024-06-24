@@ -57,7 +57,6 @@ const updateShopById = async (req, res) => {
 
 const deleteShopById = async (req, res) => {
   const shopId = req.params.shopId;
-  console.log(shopId);
   try {
     const deletedShop = await shopService.deleteShopById(shopId);
     if (!deletedShop) {
