@@ -20,6 +20,6 @@ router.post('/signIn', validUser, existUser, userController.signIn);
 router.put('/updateUser/:userId', verifyToken, validUser, existUser, notExistUser, userController.updateUserById);
 
 // Route to delete a user (accessible to all logged-in users)
-router.delete('/deleteUser/:userId', verifyToken, userController.deleteUserById);
+router.delete('/deleteUser/:userId', verifyToken, existUser, userController.deleteUserById);
 
 module.exports = router;
