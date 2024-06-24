@@ -5,6 +5,7 @@ const express = require('express');
 const connectDB = require('./database/connectDB');
 const userRoutes = require('./routes/userRoutes');
 const shopRoutes = require('./routes/shopRoutes');
+const ProductRequestRoutes = require ('./routes/productRequestRoutes');
 const productRoutes = require('./routes/productRoutes');
 const { verifyToken, isSiteAdmin, isMyShopManager } = require('./middlewares/authMiddleware');
 
@@ -52,6 +53,7 @@ app.get('/shopManager', verifyToken, isMyShopManager, (req, res) => {
 app.use('/users', userRoutes);        // Routes for managing users
 app.use('/shops', shopRoutes);        // Routes for managing shops
 app.use('/product', productRoutes);   // Routes for managing products
+app.use('/request',ProductRequestRoutes); // Routes for managing requests
 
 /**
  * Server initialization
