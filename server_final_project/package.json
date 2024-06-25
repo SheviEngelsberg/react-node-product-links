@@ -19,6 +19,8 @@
     "joi": "^17.13.3",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.4.3",
+    "playwright": "^1.45.0",
+    "playwright-chromium": "^1.45.0",
     "puppeteer": "^22.11.0",
     "validator": "^13.12.0"
   }
