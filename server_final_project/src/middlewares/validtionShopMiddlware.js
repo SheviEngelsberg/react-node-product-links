@@ -1,6 +1,7 @@
 const Joi = require('joi');
 const User = require('../models/User');
 const Shop = require('../models/Shop');
+const shopService = require('../services/shopService');
 
 // Define Joi schema for Shop object validation
 const validShop = Joi.object({
@@ -89,26 +90,51 @@ const existShop = async (req, res, next) => {
 
 const notExistShop = async (req, res, next) => {
     try {
-      const { siteLink } = req.body; // קבלת ה-siteLink מהגוף של הבקשה
-  
-      // בדיקה אם כבר קיימת חנות עם אותו siteLink
-      const shop = await Shop.findOne({ siteLink });
-  
-      if (shop) {
-        return res.status(400).json({ message: 'Shop with this site link already exists' });
-      }
-  
-      next(); // אם החנות לא קיימת, נמשיך לפעולה הבאה
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Server error' });
-    }
-  };
-  
+        const { siteLink } = req.body; // קבלת ה-siteLink מהגוף של הבקשה
 
+        // בדיקה אם כבר קיימת חנות עם אותו siteLink
+        const shop = await Shop.findOne({ siteLink });
+
+        if (shop) {
+            return res.status(400).json({ message: 'Shop with this site link already exists' });
+        }
+
+        next(); // אם החנות לא קיימת, נמשיך לפעולה הבאה
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+const updateShopAvailability = async (req, res, next) => {
+    try {
+        const shopName = req.path.split('/')[2]; // שליפת שם החנות מהנתיב
+        console.log(shopName);
+        if (!shopName) {
+            return res.status(400).json({ message: 'Shop name is required' });
+        }
+
+        const shop = await Shop.findOne({ name: shopName });
+
+        if (!shop) {
+            return res.status(404).json({ message: 'Shop not found' });
+        }
+
+        if (!shop.availability) {
+            shop.availability = true;
+            shopService.updateShopById(shop._id, shop)
+        }
+        req.shop = shop; // שמירת החנות ב- req לשימוש בראוט הבא
+        next(); // אם החנות זמינה, המשך לפעולת הראוט הבאה
+    } catch (err) {
+        console.error('Error in checkShopAvailability middleware:', err);
+        res.status(500).json({ message: 'An error occurred while checking shop availability', error: err.message });
+    }
+};
 module.exports =
 {
     validateShopRequest,
     existShop,
-    notExistShop
+    notExistShop,
+    updateShopAvailability
 };

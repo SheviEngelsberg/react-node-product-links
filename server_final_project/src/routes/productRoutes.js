@@ -1,12 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const productController = require('../controllers/productController');
-const { verifyToken} = require('../middlewares/authMiddleware');
+const { verifyToken } = require('../middlewares/authMiddleware');
+const { updateShopAvailability } = require('../middlewares/validtionShopMiddlware')
 
 
-router.get('/search/TOGO/:product', verifyToken,/* availableShop ,*/ productController.searchProductInToGo);
+router.get('/search/TOGO/:product', verifyToken, updateShopAvailability, productController.searchProductInToGo);
 
-router.get('/search/Kidichic/:product', verifyToken, productController.searchProductInKidichic);
+router.get('/search/Kidichic/:product', verifyToken, updateShopAvailability, productController.searchProductInKidichic);
 
 
 

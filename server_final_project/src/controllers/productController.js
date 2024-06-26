@@ -3,9 +3,9 @@ const productService = require('../services/productService');
 
 async function searchProductInToGo(req, res) {
   const productName = req.params.product;
-
+  const shopName = req.path.split('/')[2];
   try {
-    const result = await productService.searchProductInToGo(productName);
+    const result = await productService.searchProductInToGo(shopName, productName);
 
     if (result) {
       res.json({ url: result });
@@ -20,9 +20,10 @@ async function searchProductInToGo(req, res) {
 
 async function searchProductInKidichic(req, res) {
   const productName = req.params.product;
+  const shopName = req.path.split('/')[2];
 
   try {
-    const pageUrl = await productService.searchProductInKidichic(productName);
+    const pageUrl = await productService.searchProductInKidichic(shopName, productName);
 
     if (pageUrl) {
       res.json({ url: pageUrl });
