@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const shopController = require('../controllers/shopController');
-const { verifyToken, isMyShopManager, isSiteAdmin } = require('../middlewares/authMiddleware');
+const { verifyToken, isMyShopManager, isSiteAdmin , isShopManager } = require('../middlewares/authMiddleware');
 const { validateShopRequest, existShop, notExistShop } = require('../middlewares/validtionShopMiddlware');
 
 
@@ -12,7 +12,7 @@ router.get('/getAllShops', verifyToken, isSiteAdmin, shopController.getAllShops)
 router.get('/getShopById/:shopId', verifyToken, isMyShopManager, existShop, shopController.getShopById);
 
 // מסלול להוספת חנות חדשה
-router.post('/addShop', verifyToken, isSiteAdmin, validateShopRequest, notExistShop, shopController.addShop);
+router.post('/addShop', verifyToken, isShopManager, validateShopRequest, notExistShop, shopController.addShop);
 
 // מסלול לעדכון חנות 
 router.put('/updateShop/:shopId', verifyToken, isMyShopManager, validateShopRequest, existShop, notExistShop, shopController.updateShopById);

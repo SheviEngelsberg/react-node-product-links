@@ -31,6 +31,24 @@ const isSiteAdmin = async (req, res, next) => {
   }
 };
 
+const isShopManager = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user.userId);
+    if (!user ||  user.type !== 'shopManager') {
+      return res.status(403).json({ message: 'the user not shopManager'});
+    }
+    const shop = req.body;
+    if(shop.shopManager!= user._id)
+      return res.status(403).json({ message: 'the user not shopManager for this shop'});
+
+    next();
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+
 const isMyShopManager = async (req, res, next) => {
   try {
     const { shopId } = req.params; // קבלת ה-shopId מהפרמטרים של ה-URL
@@ -66,10 +84,11 @@ const isMyShopManager = async (req, res, next) => {
     return res.status(500).json({ message: 'Server error' });
   }
 };
-  
+
 
 module.exports = {
   verifyToken,
   isSiteAdmin,
-  isMyShopManager
+  isMyShopManager,
+  isShopManager
 };
