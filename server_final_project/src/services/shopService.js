@@ -49,11 +49,6 @@ const updateShopById = async (shopId, updatedShopData) => {
 
 const deleteShopById = async (shopId) => {
     try {
-        const shop = await Shop.findById(shopId);
-        if (!shop) {
-            return null; // אם החנות לא נמצאה, יכול להיות שתחזיר איזשהו אינדיקציה אחרת שהיא לא נמצאה במסד הנתונים
-        }
-
         if (!shop.availability) {
             await Shop.findByIdAndDelete(shopId);
             return shop; // אם החנות לא זמינה ונמחקה בהצלחה
