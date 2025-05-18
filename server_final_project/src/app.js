@@ -2,6 +2,7 @@
  * Module dependencies and setup
  */
 const express = require('express');
+const cors = require('cors');
 const connectDB = require('./database/connectDB');
 const userRoutes = require('./routes/userRoutes');
 const shopRoutes = require('./routes/shopRoutes');
@@ -14,6 +15,7 @@ const app = express();
 /**
  * Middleware setup
  */
+app.use(cors());
 app.use(express.json()); // Middleware to parse incoming JSON requests
 
 /**
