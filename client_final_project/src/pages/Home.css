@@ -1,0 +1,162 @@
+/* בסיס */
+body {
+    margin: 0;
+    background-color: black;
+    color: #ccc;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+/* רקע וידאו */
+.background-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+}
+
+/* תוכן */
+.contaner {
+    position: relative;
+    z-index: 1;
+    padding: 20px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+}
+
+.logo {
+    width: 250px;
+}
+
+/* כפתורי התחברות והרשמה */
+.buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.inButton,
+.upButton {
+    border-radius: 10px;
+    font-size: 20px;
+    padding-top: 5px;
+    padding-bottom: 8px;
+    padding-left: 15px;
+    padding-right: 15px;
+    font-family: inherit;
+    background: none;
+    cursor: pointer;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.inButton {
+    border: 2px solid red;
+}
+
+.upButton {
+    border: 2px solid rgb(42, 255, 219);
+}
+
+/* טקסט */
+.text {
+    margin-top: 100px;
+    text-align: center;
+}
+
+.main-text {
+    font-size: 40px;
+    font-weight: bold;
+    padding-top: 10px;
+}
+
+#label {
+    font-size: 70px;
+    padding: 0;
+    margin: 0;
+}
+
+/* כפתור משתמש */
+.user-button {
+    background-color: white;
+    border: none;
+    border-radius: 15px;
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+    font-weight: bold;
+    color: black;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.user-initial:hover .user-button {
+    width: 45px;
+    height: 45px;
+    color: rgb(42, 255, 219);
+    transform: scale(1.05);
+}
+
+/* קטגוריות */
+.Categories {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 50px;
+}
+
+.Categories button {
+    width: 250px;
+    height: 250px;
+    font-size: 30px;
+    border-radius: 35px;
+    border: none;
+    color: red;
+    background-color: #f2f2f2;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: 0.3s;
+    font-family: inherit;
+}
+
+.Categories button:hover {
+    color: black;
+    background-color: rgb(42, 255, 219);
+    transform: scale(1.05);
+    font-size: 40px;
+}
+
+/* אוטופיל */
+input:-webkit-autofill {
+    box-shadow: 0 0 0 1000px white inset !important;
+    -webkit-text-fill-color: black !important;
+}
+
+.top-link {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #ffffff;
+    padding: 8px 16px;
+    border-radius: 10px;
+    z-index: 2;
+    transition: 0.3s;
+}
+
+.top-link:hover {
+    /* background-color: rgb(42, 255, 219);; */
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
+
+}

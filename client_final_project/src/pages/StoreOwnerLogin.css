@@ -1,0 +1,63 @@
+.store-owner-login-container {
+    position: relative;
+    z-index: 1;
+    max-width: 400px;
+    margin: 100px auto;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    direction: rtl;
+    text-align: center;
+}
+
+.store-owner-title {
+    font-size: 36px;
+    color: red;
+    margin-bottom: 20px;
+}
+
+.store-owner-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.store-owner-form input {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-family: inherit;
+}
+
+.store-owner-form button {
+    padding: 10px;
+    font-size: 18px;
+    border-radius: 10px;
+    background-color: rgb(42, 255, 219);
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    transition: 0.3s;
+}
+
+.store-owner-form button:hover {
+    background-color: black;
+    color: white;
+}
+
+.back-button {
+    margin-top: 15px;
+    background: none;
+    color: #0077cc;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.back-button:hover {
+    color: #004a99;
+}
